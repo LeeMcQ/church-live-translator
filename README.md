@@ -1,71 +1,51 @@
-# Church Live Translator PWA
+# Church Live Translator v4.1 MVP
 
-A first testable demo for a church-focused live translator:
+Afrikaans ↔ English church caption translator PWA.
 
-- Afrikaans → English
-- English → Afrikaans
-- Shows only the translated words
-- Visual output limited to 3 lines
-- Installable PWA structure
-- Online translation first, offline phrase fallback
-- Demo test button for browsers without speech recognition
+## What v4 adds
 
-## Run locally
+- Typed translation test first, so you can prove translation works before microphone testing.
+- Bottom caption bar fixed to the bottom of the screen.
+- Church Service Mode: hides controls and leaves only the presentation area plus captions.
+- Microphone permission test.
+- Speech-recognition diagnostics.
+- PWA service worker with versioned cache for GitHub Pages.
+- API-ready translation adapter in `app.js`.
 
-Use any static web server. Example:
+## Important technical note
 
-```bash
-python -m http.server 8080
-```
+This is still an MVP. Browser speech recognition is not consistently available on every browser. Use Chrome or Edge for the first test. The built-in online fallback uses a public demo endpoint and should be replaced with a proper paid API before real church use.
 
-Open:
+## Least-step GitHub Pages update
+
+1. Delete the old files in your GitHub repository.
+2. Upload all files from this folder.
+3. Commit changes.
+4. Open:
 
 ```text
-http://localhost:8080
+https://leemcq.github.io/church-live-translator/?v=4.1
 ```
 
-## Deploy on GitHub Pages
+## Test sequence
 
-1. Create a new GitHub repository.
-2. Upload all files in this folder to the root of the repository.
-3. Go to **Settings → Pages**.
-4. Select **Deploy from branch**.
-5. Select `main` branch and `/root`.
-6. Open the GitHub Pages URL.
+1. Type `Laat ons bid` and click `Translate typed text`.
+2. Type `Good morning church` and click `Translate typed text`.
+3. Click `Check microphone` and allow permission.
+4. Select `Afrikaans (South Africa)` and click `Start listening`.
+5. Speak clearly: `Laat ons bid`.
+6. Click `Church Service Mode` to confirm bottom caption operation.
 
-## Important browser notes
+## Production improvement path
 
-- For speech recognition, test in Google Chrome or Microsoft Edge.
-- iPhone/iPad browser support for speech recognition can be limited.
-- Offline mode in this demo is a phrase-dictionary fallback only, not full AI translation.
-- Full offline Afrikaans/English translation will require a later local AI model phase.
+- Replace public translation fallback with a controlled API such as Google Cloud, Azure Translator, DeepL, or a private backend.
+- Add authenticated API-key protection server-side, not in browser JavaScript.
+- Add offline speech-to-text proof of concept using Whisper/WebGPU/WASM.
+- Add OBS/projector overlay mode.
 
-## Test phrases
 
-Afrikaans → English:
-
-- Laat ons bid
-- Maak u Bybels oop
-- Die Here is goed
-- Welkom by die kerk
-
-English → Afrikaans:
-
-- Let us pray
-- Open your Bibles
-- The Lord is good
-- Welcome to church
-
-## Next improvements
-
-- Add proper offline speech-to-text using Whisper WASM or a local model.
-- Add a better Afrikaans/English translation engine.
-- Add projector mode with remote control.
-- Add saved church vocabulary and Bible-book names.
-- Add Android/iOS/Huawei packaging using Capacitor.
-
-## Bottom caption bar mode
-
-The demo now includes **Display mode → Bottom caption bar**. This keeps the translation fixed at the bottom of the screen, while the area above can be used for slides, Bible verses, livestream content, or sermon notes.
-
-For projector use, open the app in full screen and select Bottom caption bar.
+## v4.1 release-gate fixes
+- Service Mode can now be exited using the visible Exit button or Escape key.
+- Body-level service-mode class now applies correctly to the caption bar.
+- Microphone check now reports unsupported browser/context cleanly.
+- Speech Start is disabled where browser speech recognition is unavailable.

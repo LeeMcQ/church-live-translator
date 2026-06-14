@@ -2,77 +2,89 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#101010" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#050505" />
   <title>Church Live Translator</title>
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.webmanifest?v=4.1" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css?v=4.1" />
 </head>
 <body>
-  <main class="app-shell">
-    <section class="top-bar" aria-label="Controls">
-      <div>
-        <h1>Church Live Translator</h1>
-        <p id="supportStatus" class="status">Checking microphone speech support…</p>
+  <main class="app-shell" id="appShell">
+    <section class="top-panel" id="topPanel">
+      <div class="brand-row">
+        <div>
+          <p class="eyebrow">Church Live Translator · v4.1 MVP</p>
+          <h1>Afrikaans ↔ English live captions</h1>
+        </div>
+        <button id="serviceModeBtn" class="secondary">Church Service Mode</button>
       </div>
-      <button id="installBtn" class="secondary hidden" type="button">Install App</button>
+
+      <div class="grid">
+        <section class="card">
+          <h2>1. Translation test</h2>
+          <p class="hint">Start here. This confirms translation works before testing the microphone.</p>
+          <label for="sourceLang">Direction</label>
+          <select id="sourceLang">
+            <option value="auto">Auto detect</option>
+            <option value="af">Afrikaans → English</option>
+            <option value="en">English → Afrikaans</option>
+          </select>
+          <label for="manualInput">Type or paste text</label>
+          <textarea id="manualInput" rows="4" placeholder="Example: Laat ons bid"></textarea>
+          <div class="button-row">
+            <button id="translateBtn">Translate typed text</button>
+            <button id="sampleAfBtn" class="secondary">Test Afrikaans</button>
+            <button id="sampleEnBtn" class="secondary">Test English</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>2. Microphone test</h2>
+          <p class="hint">Best supported in Chrome or Edge on Windows/Android. Safari support is limited.</p>
+          <div class="button-row">
+            <button id="micCheckBtn" class="secondary">Check microphone</button>
+            <button id="startBtn">Start listening</button>
+            <button id="stopBtn" class="danger" disabled>Stop</button>
+          </div>
+          <label for="speechLang">Speech recognition language</label>
+          <select id="speechLang">
+            <option value="af-ZA">Afrikaans (South Africa)</option>
+            <option value="en-ZA">English (South Africa)</option>
+            <option value="en-US">English (US fallback)</option>
+          </select>
+          <p id="speechTranscript" class="transcript">Transcript will appear here during microphone tests.</p>
+        </section>
+      </div>
+
+      <section class="card diagnostics">
+        <h2>3. Engine diagnostics</h2>
+        <div class="status-grid">
+          <div><strong>Browser speech:</strong> <span id="speechSupport">Checking…</span></div>
+          <div><strong>Microphone:</strong> <span id="micStatus">Not tested</span></div>
+          <div><strong>Translation engine:</strong> <span id="translationEngine">Local phrases + public fallback</span></div>
+          <div><strong>PWA/offline shell:</strong> <span id="pwaStatus">Checking…</span></div>
+          <div><strong>Display mode:</strong> <span id="displayMode">Normal</span></div>
+          <div><strong>Last action:</strong> <span id="lastAction">Ready</span></div>
+        </div>
+      </section>
     </section>
 
-    <section class="controls">
-      <label>
-        Direction
-        <select id="directionSelect">
-          <option value="af-en">Afrikaans → English</option>
-          <option value="en-af">English → Afrikaans</option>
-        </select>
-      </label>
-
-      <label>
-        Translation mode
-        <select id="modeSelect">
-          <option value="auto">Online first, offline fallback</option>
-          <option value="offline">Offline phrase demo only</option>
-        </select>
-      </label>
-
-      <label>
-        Text size
-        <input id="sizeSlider" type="range" min="28" max="96" value="64" />
-      </label>
-
-      <label>
-        Display mode
-        <select id="displayModeSelect">
-          <option value="card">Normal church display</option>
-          <option value="bottom">Bottom caption bar</option>
-        </select>
-      </label>
-    </section>
-
-    <section class="button-row">
-      <button id="startBtn" class="primary" type="button">Start Listening</button>
-      <button id="stopBtn" class="danger" type="button" disabled>Stop</button>
-      <button id="testBtn" class="secondary" type="button">Run Demo Test</button>
-      <button id="clearBtn" class="secondary" type="button">Clear</button>
-    </section>
-
-    <section id="contentPreview" class="content-preview" aria-label="Sample content area">
-      <h2>Content area above captions</h2>
-      <p>Use this area for slides, sermon notes, Bible verses, livestream video, or any other church content. When Bottom Caption Bar is selected, the translated text stays fixed at the bottom of the screen.</p>
-      <p class="preview-verse">“For where two or three are gathered together in my name, there am I in the midst of them.”</p>
-    </section>
-
-    <section id="displayCard" class="display-card" aria-live="polite" aria-label="Translated words">
-      <div id="translatedOutput" class="translated-output">Ready</div>
-    </section>
-
-    <section class="diagnostics">
-      <p><strong>Heard:</strong> <span id="heardText">—</span></p>
-      <p><strong>Engine:</strong> <span id="engineStatus">Idle</span></p>
-      <p><strong>Note:</strong> Offline demo uses a small church phrase dictionary. Full offline Afrikaans/English translation needs a local model in the next phase.</p>
+    <section class="stage" id="stage">
+      <div class="stage-content">
+        <p class="muted">Use this area for Bible verses, sermon notes, OBS/browser source, or a blank projection background.</p>
+        <h2>Projected content can stay above</h2>
+        <p>The translated caption remains fixed at the bottom and is limited to three lines.</p>
+      </div>
     </section>
   </main>
 
-  <script src="app.js" defer></script>
+  <aside class="caption-bar" id="captionBar" aria-live="polite">
+    <button id="exitServiceModeBtn" class="exit-service" type="button" aria-label="Exit church service mode">Exit</button>
+    <div class="caption-meta" id="captionMeta">Ready</div>
+    <div class="caption-text" id="captionText">Translation will appear here</div>
+  </aside>
+
+  <script src="app.js?v=4.1"></script>
 </body>
 </html>

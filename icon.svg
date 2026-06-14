@@ -1,4 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="96" fill="#101010"/>
-  <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-size="210" font-family="Arial, Helvetica, sans-serif" fill="white">T</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="96" fill="#050505"/><path d="M256 70v372M150 170h212M190 260h132" stroke="#fff" stroke-width="34" stroke-linecap="round"/><path d="M115 380c65-42 217-42 282 0" stroke="#fff" stroke-width="28" fill="none" stroke-linecap="round"/></svg>

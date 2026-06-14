@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101010" />
+  <title>Church Live Translator</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <section class="top-bar" aria-label="Controls">
+      <div>
+        <h1>Church Live Translator</h1>
+        <p id="supportStatus" class="status">Checking microphone speech support…</p>
+      </div>
+      <button id="installBtn" class="secondary hidden" type="button">Install App</button>
+    </section>
+
+    <section class="controls">
+      <label>
+        Direction
+        <select id="directionSelect">
+          <option value="af-en">Afrikaans → English</option>
+          <option value="en-af">English → Afrikaans</option>
+        </select>
+      </label>
+
+      <label>
+        Translation mode
+        <select id="modeSelect">
+          <option value="auto">Online first, offline fallback</option>
+          <option value="offline">Offline phrase demo only</option>
+        </select>
+      </label>
+
+      <label>
+        Text size
+        <input id="sizeSlider" type="range" min="28" max="96" value="64" />
+      </label>
+
+      <label>
+        Display mode
+        <select id="displayModeSelect">
+          <option value="card">Normal church display</option>
+          <option value="bottom">Bottom caption bar</option>
+        </select>
+      </label>
+    </section>
+
+    <section class="button-row">
+      <button id="startBtn" class="primary" type="button">Start Listening</button>
+      <button id="stopBtn" class="danger" type="button" disabled>Stop</button>
+      <button id="testBtn" class="secondary" type="button">Run Demo Test</button>
+      <button id="clearBtn" class="secondary" type="button">Clear</button>
+    </section>
+
+    <section id="contentPreview" class="content-preview" aria-label="Sample content area">
+      <h2>Content area above captions</h2>
+      <p>Use this area for slides, sermon notes, Bible verses, livestream video, or any other church content. When Bottom Caption Bar is selected, the translated text stays fixed at the bottom of the screen.</p>
+      <p class="preview-verse">“For where two or three are gathered together in my name, there am I in the midst of them.”</p>
+    </section>
+
+    <section id="displayCard" class="display-card" aria-live="polite" aria-label="Translated words">
+      <div id="translatedOutput" class="translated-output">Ready</div>
+    </section>
+
+    <section class="diagnostics">
+      <p><strong>Heard:</strong> <span id="heardText">—</span></p>
+      <p><strong>Engine:</strong> <span id="engineStatus">Idle</span></p>
+      <p><strong>Note:</strong> Offline demo uses a small church phrase dictionary. Full offline Afrikaans/English translation needs a local model in the next phase.</p>
+    </section>
+  </main>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
